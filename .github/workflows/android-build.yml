@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          # Humne cache wali line hata di hai taaki lock file ka error na aaye
 
       - name: Setup Expo EAS
         uses: expo/expo-github-action@v8
