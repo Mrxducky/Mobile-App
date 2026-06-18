@@ -1,0 +1,43 @@
+name: Android APK Build
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Clean Cache and Force Install
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install --legacy-peer-deps --force
+          npx expo install --fix
+
+      - name: Expo Prebuild (Ignore Validation)
+        run: npx expo prebuild --platform android --skip-dependency-validation
+
+      - name: Build APK with Gradle
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
+
+      - name: Upload Finished APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Talabat-Finder-APK
+          path: android/app/build/outputs/apk/release/app-release.apk

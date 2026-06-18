@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "Talabat COD Finder",
+    "slug": "mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "mobile",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FF5A00"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "config": {
+        "googleMapsApiKey": "AIzaSyDXCnCDEWKKhAvEYzu0Lv2ukk_Tjjr4zAk"
+      }
+    },
+    "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDXCnCDEWKKhAvEYzu0Lv2ukk_Tjjr4zAk"
+        }
+      }
+    },
+    "web": {
+      "favicon": "./assets/images/icon.png"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "origin": "https://replit.com/"
+        }
+      ],
+      "expo-font",
+      "expo-web-browser",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow Talabat COD Finder to use your location to find nearby COD machines.",
+          "locationWhenInUsePermission": "Allow Talabat COD Finder to use your location to find nearby COD machines."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
