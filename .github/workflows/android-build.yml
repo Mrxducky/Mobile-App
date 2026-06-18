@@ -21,10 +21,12 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Clean Cache and Force Install
+      - name: Install Yarn (Better Catalog Support)
+        run: npm install -g yarn
+
+      - name: Install Dependencies
         run: |
-          rm -rf node_modules package-lock.json
-          npm install --legacy-peer-deps --force
+          yarn install --ignore-engines
           npx expo install --fix
 
       - name: Expo Prebuild (Ignore Validation)
