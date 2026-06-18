@@ -1,42 +1,33 @@
-name: Android APK Build
+name: Android APK Build (Expo EAS)
 on:
   push:
-    branches: [ main, master ]
+    branches:
+      - master
 
 jobs:
   build:
+    name: Install and Build APK
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
+      - name: Check out repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
+          cache: 'npm'
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - name: Setup Expo EAS
+        uses: expo/expo-github-action@v8
         with:
-          distribution: 'zulu'
-          java-version: '17'
+          eas-version: latest
 
-      - name: Install Dependencies Safely
+      - name: Install dependencies
+        run: npm install
+
+      - name: Expo Login and Build Android Preview APK
         run: |
-          # npm install ko bypass karke pack-lock create karenge taaki catalog error na aaye
-          npm install --legacy-peer-deps --no-audit --no-fund || echo "Bypassing strict catalog errors"
-
-      - name: Expo Prebuild (Generate Android Folder)
-        run: npx expo prebuild --platform android --skip-dependency-validation
-
-      - name: Build APK with Gradle
-        run: |
-          cd android
-          chmod +x gradlew
-          ./gradlew assembleRelease --no-daemon
-
-      - name: Upload Finished APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: Talabat-Finder-APK
-          path: android/app/build/outputs/apk/release/app-release.apk
+          npx eas-cli login --username "${{ secrets.EXPO_USERNAME }}" --password "${{ secrets.EXPO_PASSWORD }}"
+          npx eas-cli build --platform android --profile preview --non-interactive
