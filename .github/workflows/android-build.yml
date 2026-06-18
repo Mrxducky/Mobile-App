@@ -13,7 +13,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -21,10 +21,13 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Install Dependencies with Expo CLI
-        run: |
-          npx expo install --fix
-          npm install --legacy-peer-deps
+      - name: Setup PNPM (Handles Catalogs Perfectly)
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Install Dependencies
+        run: pnpm install --no-frozen-lockfile
 
       - name: Expo Prebuild (Ignore Validation)
         run: npx expo prebuild --platform android --skip-dependency-validation
