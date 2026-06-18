@@ -21,13 +21,10 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Install Yarn (Better Catalog Support)
-        run: npm install -g yarn
-
-      - name: Install Dependencies
+      - name: Install Dependencies with Expo CLI
         run: |
-          yarn install --ignore-engines
           npx expo install --fix
+          npm install --legacy-peer-deps
 
       - name: Expo Prebuild (Ignore Validation)
         run: npx expo prebuild --platform android --skip-dependency-validation
